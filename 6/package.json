@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "nodemailer": "^7.0.10",
+    "semyonov-m0603": "^1.0.0",
+    "sendmail": "^1.6.1"
+  },
+  "name": "semyonov-m0603",
+  "version": "1.0.0",
+  "description": "\"test\"",
+  "main": "m0603.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "\"bel4our\"",
+  "license": "ISC"
+}

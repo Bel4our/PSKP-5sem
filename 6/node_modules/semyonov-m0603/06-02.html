@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .row{
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .row label{
+            margin-right: 10px;
+            flex: 0 0 100px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post", action="/">
+        <div class="row">
+            <label>Отправитель</label>
+            <input name="sender" value="box@mailserver">
+        </div>
+        <div class="row">
+            <label>Получатель</label>
+            <input name="receiver" value="box@mailserver">
+        </div>
+        <div class="row">
+            <label>Сообщение</label>
+            <input name="message" value="Сообщение">
+        </div>
+        
+        <input type="submit">
+        
+    </form>
+</body>
+</html>

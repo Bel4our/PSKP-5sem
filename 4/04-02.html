@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04-02</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        .section { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        h1, h2 { color: #333; }
+        input { margin-bottom: 10px; padding: 8px;} 
+        button { padding: 10px 15px; cursor: pointer; margin-right: 10px;}
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="section">
+        <h2>GET</h2>
+        <div id="get_result"></div>
+        <button onclick="Get()">GET</button>
+    </div>
+
+    <div class="section">
+        <h2>POST</h2>
+        <label>ID:</label><input type="number" id="post_id" min="1"/>
+        <label>ФИО:</label><input type="text" id="post_name"/>
+        <label>Дата рождения:</label><input type="date" id="post_bday"/>
+        <button onclick="Post()">POST</button>
+    </div>
+
+    <div class="section">
+        <h2>PUT</h2>
+        <label>ID для обновления:</label><input type="number" id="put_id" min="1"/>
+        <label>Новое ФИО:</label><input type="text" id="put_name"/>
+        <label>Новая дата рождения:</label><input type="date" id="put_bday"/>
+        <button onclick="Put()">PUT</button>
+    </div>
+
+    <div class="section">
+        <h2>DELETE</h2>
+        <label>ID для удаления:</label><input type="number" id="delete_id" min="1"/>
+        <button onclick="Delete()">DELETE</button>
+    </div>
+</div>
+
+<script>
+    const API_URL = 'http://localhost:5000/api/db';
+
+    function Get() {
+        console.log('GET');
+        fetch(API_URL, {
+            method: 'GET',
+            headers: {'Content-Type':'application/json', 'Accept': 'application/json'}
+        })
+        .then(response => {return response.json();})
+        .then(pdata => {
+            console.log('pdata:', pdata); 
+            get_result.innerHTML ='';
+            pdata.forEach(el => {
+                get_result.innerHTML += (el.id+'. ' + el.name + ' ' +  el.bday + '<br/>');
+            });
+        });
+    }
+
+    function Post() {
+        console.log('POST');
+        fetch(API_URL, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}, 
+            body: JSON.stringify({id: parseInt(post_id.value), name: post_name.value, bday: post_bday.value})
+        })
+        .then(response => {return response.json()})
+        .then(pdata => {
+            console.log('POST response:', pdata); 
+        });
+    }
+    function Put() {
+        console.log('PUT');
+        fetch(`${API_URL}?id=${put_id.value}`, {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+            body: JSON.stringify({ name: put_name.value, bday: put_bday.value })
+        })
+        .then(response => {return response.json()})
+        .then(pdata => {
+            console.log('PUT response:', pdata);
+        });
+    }
+
+    function Delete() {
+        console.log('DELETE');
+        fetch(`${API_URL}?id=${delete_id.value}`, {
+            method: 'DELETE',
+            headers: {'Accept': 'application/json'}
+        })
+        .then(response => {return response.json()})
+        .then(pdata => {
+            console.log('DELETE response:', pdata);
+        });
+    }
+</script>
+
+</body>
+</html>
