@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>03-03</title>
+</head>
+<body>
+<div id="result"></div>
+<script>
+    result.innerHTML = "";
+    let n = 0;
+    const d = Date.now();
+
+    for (let i = 0; i < 21; i++) {
+        fetch(`/fact?k=${i}`, {
+            method: "GET", mode: "no-cors",
+            headers: {'Content-Type':'application/json','Accept': 'application/json'}
+        }
+    )
+    .then(response => response.json())
+    .then(pdata => {
+        result.innerHTML += (n++) + ". Результат: " + (Date.now() - d) + '-' + pdata.k + "/" + pdata.fact + "<br/>";
+    });
+    }
+</script>
+</body>
+</html>

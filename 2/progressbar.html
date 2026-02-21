@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>XHR Progress</title>
+  <style>
+    .progress {
+      width: 100%;
+      background: #eee;
+      border: 1px solid #aaa;
+      height: 25px;
+    }
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: green;
+      text-align: center;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="progress"><div class="bar">0%</div></div>
+
+<script>
+  const bar = document.querySelector(".bar");
+  const states = ["UNSENT","OPENED","HEADERS","LOADING","DONE"];
+
+  function update(rs) {
+    const percent = rs * 25;
+    bar.style.width = percent + "%";
+    bar.textContent = states[rs] + " " + percent + "%";
+  }
+
+  const xhr = new XMLHttpRequest();
+
+  let queue = [];
+  let showing = false;
+
+  function showNext() {
+    if (queue.length == 0) {
+      showing = false;
+      return;
+    }
+    showing = true;
+    const rs = queue.shift();
+    update(rs);
+
+    const delay = 2000; 
+    setTimeout(showNext, delay);
+  }
+
+  xhr.onreadystatechange = function() {
+    queue.push(xhr.readyState);
+    if (!showing) showNext();
+  };
+
+  update(0);
+  setTimeout(() => {
+    update(1);
+    xhr.open("GET", "https://jsonplaceholder.typicode.com/todos/1", true);
+    xhr.send();
+  }, 2000);
+</script>
+</body>
+</html>
